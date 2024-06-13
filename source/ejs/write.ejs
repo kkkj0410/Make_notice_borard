@@ -1,0 +1,49 @@
+
+<!-- 새로 글쓰기 -->
+<!DOCTYPE html>
+<html lang = "ko">
+    <head>
+        <style>
+        input{
+            height : 30px;
+            width : 1000px;
+        }
+        textarea{
+            height : 250px;
+            width : 1000px;
+        }
+    </style>
+    </head>
+    <body>
+        <p1>새로 글쓰기</p1>
+        <div id = "Post">
+            <input id = "title" type = "text" placeholder = "제목 : ">
+            <br>
+            <textarea id = "content" placeholder = "내용 : "></textarea>
+            <br>
+            <input type = "submit" id = "OK" >
+        </div>
+        <a href = "http://localhost:3000">메인 게시판으로 이동</a>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $("#OK").click(function(){
+                $.ajax({
+                    url:'/write',
+                    async : true,
+                    type : 'POST',
+                    data:{
+                        title:$("#title").val(),
+                        content:$("#content").val()
+                    },
+                    dataType : 'json',
+                    success:function(data){
+                        alert("보내기 성공")
+                    },
+                    error:function(err){
+                        alert("보내기 실패")
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>
