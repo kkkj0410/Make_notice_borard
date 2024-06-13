@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang = "ko">
+    <head>
+    </head>
+    <body>
+        <p1>게시판 목록</p1>
+        <ul id = "Post_list"></ul>
+        <% let arr = [] %>
+        <% for(let i = 0; i<db.length; i++) { %>
+            <% arr.push(db[i]) %>
+            <li > <%= db[i].title %></li>
+            <li> <%= db[i].content %></li>
+            <button id = <%= i.toString() %> onClick = "location.href = 'http://localhost:3000/modify_write'; Click(this.id)">수정</button>
+        <% } %>
+        <br>
+        <a href = "http://localhost:3000/write">새 게시글 작성</a>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            function Click(event){
+                let String_DB = '<%= JSON.stringify(db) %>';
+                let decodedString = String_DB.replace(/&#(\d+);/g, function(match, dec) {
+                    return String.fromCharCode(dec);
+                });
+                let DB = JSON.parse(decodedString);
+                const id = parseInt(event,10)
+                $.ajax({
+                    url:'/modify_write',
+                    async : true,
+                    type : 'POST',
+                    data:{
+                        _id : DB[id]._id,
+                        title:DB[id].title,
+                        content:DB[id].content
+                    },
+                    dataType : 'json',
+                    success:function(data){
+                        alert("보내기 성공")
+                    },
+                    error:function(err){
+                        alert("보내기 실패")
+                    }
+                })
+        }
+        </script>
+    </body>
+</html>
